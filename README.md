@@ -27,14 +27,14 @@ pywindowstyles.apply_style(window, style_name)
 ![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
 ## Changing Title Bar Color
 ```python
-pywindowstyle.change_header_color(window, red=10, blue=50, green=50) # rgb order is manual
+pywindowstyles.change_header_color(window, red=10, blue=50, green=50) # rgb order is manual
 ```
 ## Changing Title Color
 ```python
-pywindowstyle.change_title_color(window, red=100, blue=100, green=100) # 100 is maximum strength
+pywindowstyles.change_title_color(window, red=100, blue=100, green=100) # 100 is maximum strength
 ```
 ## Change Border Color
 ```python
-pywindowstyle.change_border_color(root, red=10, blue=100, green=100) # there is also a border color
+pywindowstyles.change_border_color(root, red=10, blue=100, green=100) # there is also a border color
 ```
 
