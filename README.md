@@ -1,5 +1,5 @@
 # py-window-styles
-Customize your tkinter/qt windows with awesome built-in window styles and themes.
+Customize your tkinter/pyqt windows with awesome built-in window styles and themes.
 **This is only for windows 11 (windows 10 may not work).**
 
 ![Screenshot 2023-06-19 205353](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
