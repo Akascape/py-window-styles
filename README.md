@@ -29,7 +29,7 @@ pywindowstyles.apply_style(window, style_name)
 ```python
 pywindowstyles.change_header_color(window, red=10, blue=50, green=50) # rgb order is manual
 ```
-## Changing Title Color
+## Changing Title Text Color
 ```python
 pywindowstyles.change_title_color(window, red=100, blue=100, green=100) # 100 is maximum strength
 ```
