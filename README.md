@@ -1,7 +1,7 @@
 # py-window-styles
 Customize your tkinter/qt windows with awesome built-in window styles 
 
-**This is only for windows 11 (window 10 may not work).**
+**This is only for windows 11 (windows 10 may not work).**
 
 # Window Styles
 ```python
