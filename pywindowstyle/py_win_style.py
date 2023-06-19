@@ -27,7 +27,7 @@ class apply_style():
             warnings.warn("Cannot apply header style! \nThis is not a windows environment.")
             return
         
-        styles = ["dark", "mica-light", "mica-dark", "aero", "transparent", "acrylic",
+        styles = ["dark", "mica", "aero", "transparent", "acrylic",
                   "win7", "inverse", "popup", "native", "optimised", "light"]
         if style not in styles:
             warnings.warn(f"Invalid Style! No such style exists: {style}")
@@ -35,11 +35,8 @@ class apply_style():
         
         window.update()
         self.HWND = windll.user32.GetParent(window.winfo_id())
-        if style=="mica-dark":
+        if style=="mica":
             ChangeHeader(self.HWND, 19, c_int(1))
-            ChangeHeader(self.HWND, 1029, c_int(0x01))
-        elif style=="mica-light":
-            ChangeHeader(self.HWND, 19, c_int(0))
             ChangeHeader(self.HWND, 1029, c_int(0x01))
         elif style=="optimised":
             ChangeAccent(self.HWND, 30, 1)
