@@ -1,9 +1,12 @@
 # py-window-styles
-Customize your tkinter/qt root window with awesome in-build window styles 
+Customize your tkinter/qt windows with awesome built-in window styles 
 
-Note: This is only for windows 11 (window 10 may not work).
+**This is only for windows 11 (window 10 may not work).**
 
 # Window Styles
+```python
+pywindowstyles.apply_style(window, style_name)
+```
 | Style Name | Image |
 |-----------| ------------|
 | mica |  ![](https://user-images.githubusercontent.com/89206401/222347983-d840bee2-a100-40b4-a418-1a604bfc67d4.jpg) |
@@ -16,4 +19,19 @@ Note: This is only for windows 11 (window 10 may not work).
 | native |  ![](https://github.com/Akascape/py-window-styles/assets/89206401/3047d165-006f-4386-88a8-b5272f740ed2) |
 | popup | ![](https://github.com/Akascape/py-window-styles/assets/89206401/dac6672e-99e8-4abc-b779-aed25c32ed09) |
 | dark | ![](https://github.com/Akascape/py-window-styles/assets/89206401/ca41fa22-ed9d-437f-8574-bf0a13218747) |
+
+# Custom Colors
+![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
+## Changing Title Bar Color
+```python
+pywindowstyle.change_header_color(window, red=10, blue=50, green=50) # rgb order is manual
+```
+## Changing Title Color
+```python
+pywindowstyle.change_title_color(window, red=100, blue=100, green=100) # 100 is maximum strength
+```
+## Change Border Color
+```python
+pywindowstyle.change_border_color(root, red=10, blue=100, green=100) # there is also a border color
+```
 
