@@ -8,7 +8,7 @@ Customize your tkinter/pyqt window with awesome built-in windows header styles a
 ```python
 import pywindowstyles
 ...
-pywindowstyles.apply_style(window, style_name)
+pywindowstyles.apply_style(window, style)
 ```
 | Style Name | Image |
 |-----------| ------------|
