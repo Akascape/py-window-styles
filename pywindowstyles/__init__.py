@@ -1,7 +1,7 @@
 """
 Custom window styles for window 11
 Author: Akash Bora
-License: MIT
+License: CC0-1.0
 Homepage: https://github.com/Akascape/py-window-styles
 """
 
