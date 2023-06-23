@@ -35,6 +35,6 @@ pywindowstyles.change_title_color(window, string="#ffffff")
 ```
 ## Change Border Color
 ```python
-pywindowstyles.change_border_color(root, string="#00fffff") # there is also a border color
+pywindowstyles.change_border_color(root, string="#00ffff") # there is also a border color
 ```
 
