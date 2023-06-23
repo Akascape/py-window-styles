@@ -93,7 +93,8 @@ class change_header_color():
             return
         else:
             ChangeAccent(self.HWND, 30, 0)
-            
+        if string:
+                string = f"{string[5:7]}{string[3:5]}{string[1:3]}"
         self.color = f"{blue}{green}{red}" if not string else string
         self.color = DWORD(int(self.color, base=16))
         self.attrib = 35
@@ -122,6 +123,8 @@ class change_border_color():
             red="FF"
             
         self.HWND = windll.user32.GetParent(window.winfo_id())
+        if string:
+                string = f"{string[5:7]}{string[3:5]}{string[1:3]}"
         self.color = f"{blue}{green}{red}" if not string else string
         self.color = DWORD(int(self.color, base=16))
         self.attrib = 34
@@ -149,6 +152,8 @@ class change_title_color():
             red="FF"
             
         self.HWND = windll.user32.GetParent(window.winfo_id())
+        if string:
+                string = f"{string[5:7]}{string[3:5]}{string[1:3]}"
         self.color = f"{blue}{green}{red}" if not string else string
         self.color = DWORD(int(self.color, base=16))
         self.attrib = 36
