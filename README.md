@@ -44,7 +44,7 @@ pywinstyles.change_title_color(window, color="white")
 ```
 ### Change Border Color
 ```python
-pywinstyles.change_border_color(root, color="#00ffff")
+pywinstyles.change_border_color(window, color="#00ffff")
 ```
 
 **Hope this project will help in UI development with python**
