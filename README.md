@@ -14,9 +14,10 @@ pip install pywinstyles
 
 ## Window Styles
 ```python
-import pywindowstyles
+import pywinstyles
 ...
 pywinstyles.apply_style(window, style)
+...
 ```
 | Style Name | Preview |
 |-----------| ------------|
