@@ -15,16 +15,19 @@ def change_style(e):
 def change_header():
     color = askcolor(title="Choose color")
     if color[1]:
+        print(color[1])
         pywinstyles.change_header_color(root, color=color[1])
 
 def change_title():
     color = askcolor(title="Choose color")
     if color[1]:
+        print(color[1])
         pywinstyles.change_title_color(root, color=color[1])
 
 def change_border():
     color = askcolor(title="Choose color")
     if color[1]:
+        print(color[1])
         pywinstyles.change_border_color(root, color=color[1])
     
 root = customtkinter.CTk()
