@@ -1,19 +1,27 @@
 # py-window-styles
-Customize your tkinter/pyqt window with awesome built-in windows header styles and themes.
+
+Customize your UI window with awesome built-in windows 11 header styles and themes.
 **This is only for windows 11 (some themes may not work in windows 10).**
 
 ![Screenshot 2023-06-19 205353](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
 
-# Window Styles
+## Installation
+```
+pip install pywinstyles
+```
+<img src="https://img.shields.io/badge/Platform-Windows-informational?" width="150"> [<img src="https://img.shields.io/pypi/v/pywinstyles?style=flat" width="90">](https://pypi.org/project/pywinstyles)
+[<img src="https://static.pepy.tech/badge/pywinstyles" width="130">](https://pepy.tech/project/pywinstyles)
+
+## Window Styles
 ```python
 import pywindowstyles
 ...
-pywindowstyles.apply_style(window, style)
+pywinstyles.apply_style(window, style)
 ```
-| Style Name | Image |
+| Style Name | Preview |
 |-----------| ------------|
 | mica |  ![](https://user-images.githubusercontent.com/89206401/222347983-d840bee2-a100-40b4-a418-1a604bfc67d4.jpg) |
-| **acrylic** | ![](https://github.com/Akascape/py-window-styles/assets/89206401/cbd54b23-0626-44c7-a89a-6359517ed1a5) |
+| acrylic | ![](https://github.com/Akascape/py-window-styles/assets/89206401/cbd54b23-0626-44c7-a89a-6359517ed1a5) |
 | aero | ![](https://user-images.githubusercontent.com/89206401/223035861-ca4a1c52-7475-43a9-b197-1c06bb4ecec7.jpg)|
 | transparent | ![](https://github.com/Akascape/py-window-styles/assets/89206401/317e9c4e-be27-444e-aa22-02b625e94960)  |
 | optimised | ![](https://user-images.githubusercontent.com/89206401/246128698-726ba674-843b-46ef-8a4d-8732b66a13a3.jpg) |
@@ -23,18 +31,21 @@ pywindowstyles.apply_style(window, style)
 | popup | ![](https://github.com/Akascape/py-window-styles/assets/89206401/dac6672e-99e8-4abc-b779-aed25c32ed09) |
 | dark | ![](https://github.com/Akascape/py-window-styles/assets/89206401/ca41fa22-ed9d-437f-8574-bf0a13218747) |
 
-# Custom Colors
+## Custom Window Colors
 ![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
-## Changing Title Bar Color
+### Changing Title Bar Color
 ```python
-pywindowstyles.change_header_color(window, string="#00524d")  # only hex colors can be passed
+pywinstyles.change_header_color(window, color="#00524d")  
 ```
-## Changing Title Text Color
+### Changing Title Text Color
 ```python
-pywindowstyles.change_title_color(window, string="#ffffff") 
+pywinstyles.change_title_color(window, color="white") 
 ```
-## Change Border Color
+### Change Border Color
 ```python
-pywindowstyles.change_border_color(root, string="#00ffff") # there is also a border color
+pywinstyles.change_border_color(root, color="#00ffff")
 ```
 
+**Hope this project will help in UI development with python**
+
+**Author: Akash Bora**
