@@ -50,3 +50,8 @@ pywinstyles.change_border_color(window, color="#00ffff")
 **Hope this project will help in UI development with python**
 
 **Author: Akash Bora**
+
+## Help Wanted! ⚠️
+If you know about windows API and ctypes, then please help solve these issues.
+- Changing title bar color on windows 10 (WM_NCPAINT)
+- Applying transparent color in title bar
