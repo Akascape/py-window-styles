@@ -32,7 +32,7 @@ pywinstyles.apply_style(window, style)
 | popup | ![](https://github.com/Akascape/py-window-styles/assets/89206401/dac6672e-99e8-4abc-b779-aed25c32ed09) |
 | dark | ![](https://github.com/Akascape/py-window-styles/assets/89206401/ca41fa22-ed9d-437f-8574-bf0a13218747) |
 
-## Custom Window Colors
+## Custom Window Colors (Only available in windows 11)
 ![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
 ### Changing Title Bar Color
 ```python
@@ -51,7 +51,3 @@ pywinstyles.change_border_color(window, color="#00ffff")
 
 **Author: Akash Bora**
 
-## Help Wanted! ⚠️
-If you know about windows API and ctypes, then please help solve these issues.
-- Changing title bar color on windows 10 if possible
-- Applying transparent color in title bar (text bg color)
