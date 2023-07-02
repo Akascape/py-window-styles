@@ -1,7 +1,7 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.2
+Version: 1.3
 """
 
 try:
@@ -133,26 +133,32 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
     
 def detect(window):
     """ detect the type of UI library """
-    window_name = str(window).lower()
-    if window_name.startswith("."): # tkinter
+    try: # tkinter
         window.update()
         return windll.user32.GetParent(window.winfo_id())
-    elif window_name.startswith("<wx"): # wxpython
-        return window.GetHandle()
-    elif window_name.startswith("<py"): # pyqt/pyside
+    except: pass
+    try: # pyqt/pyside
         return window.winId().__int__()
-    else:
-        return window # other ui windows
+    except: pass
+    try: # wxpython
+        return window.GetHandle()
+    except: pass
+    return window # other ui windows
     
 def paint(window):
     """ paint black color in background """
-    window_name = str(window).lower()
-    if window_name.startswith("."): # tkinter
+    try: # tkinter
         window.config(bg="black")
-    elif window_name.startswith("<wx"): # wxpython
-        window.SetBackgroundColour("black")
-    elif window_name.startswith("<py"): # pyqt/pyside
+        return
+    except: pass
+    try: # pyqt/pyside
         window.setStyleSheet("background-color: transparent;")
+        return
+    except: pass
+    try: # wxpython
+        window.SetBackgroundColour("black")
+        return
+    except: pass
     
 def convert_color(color_name: str):
     """ convert colors to the required API """
