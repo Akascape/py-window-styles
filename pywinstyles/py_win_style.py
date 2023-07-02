@@ -1,7 +1,7 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.0
+Version: 1.2
 """
 
 try:
@@ -38,9 +38,8 @@ class apply_style():
             raise ValueError(f"Invalid style name! No such window style exists: {style} \nAvailable styles: {styles}")
             return
         
-        window.update()
-        self.HWND = windll.user32.GetParent(window.winfo_id())
-        
+        self.HWND = detect(window)
+
         if style=="mica":
             ChangeDWMAttrib(self.HWND, 19, c_int(1))
             ChangeDWMAttrib(self.HWND, 1029, c_int(0x01))
@@ -48,18 +47,20 @@ class apply_style():
             ChangeDWMAccent(self.HWND, 30, 1)
         elif style=="dark":
             ChangeDWMAttrib(self.HWND, 19, c_int(1))
+            ChangeDWMAttrib(self.HWND, 20, c_int(1))
         elif style=="light":
             ChangeDWMAttrib(self.HWND, 19, c_int(0))
+            ChangeDWMAttrib(self.HWND, 20, c_int(0))
         elif style=="inverse":
             ChangeDWMAccent(self.HWND, 6, 1)
         elif style=="win7":
             ChangeDWMAccent(self.HWND, 11, 1)
         elif style=="aero":
-            window.config(bg="black")
+            paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 3, color=0x000000)
         elif style=="acrylic":
-            window.config(bg="black")
+            paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 4, color=0x292929)
         elif style=="popup":
@@ -68,18 +69,17 @@ class apply_style():
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 2)
         elif style=="transparent":
-            window.config(bg="black")
+            paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 4, color=0)
-      
+     
 class change_header_color():
     """ change the titlebar background color """
     def __init__(self,
                  window,
                  color):
         
-        window.update()
-        self.HWND = windll.user32.GetParent(window.winfo_id())
+        self.HWND = detect(window)
     
         if color=="transparent":
             ChangeDWMAccent(self.HWND, 30, 2)
@@ -97,9 +97,8 @@ class change_border_color():
     def __init__(self,
                  window,
                  color):
-        
-        window.update()            
-        self.HWND = windll.user32.GetParent(window.winfo_id())
+                   
+        self.HWND = detect(window)
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 34
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
@@ -110,8 +109,7 @@ class change_title_color():
                  window,
                  color):
         
-        window.update()     
-        self.HWND = windll.user32.GetParent(window.winfo_id())
+        self.HWND = detect(window)
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 36
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
@@ -132,7 +130,30 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
         accentPolicy.GradientColor = color
                                     
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
-
+    
+def detect(window):
+    """ detect the type of UI library """
+    window_name = str(window).lower()
+    if window_name.startswith("."): # tkinter
+        window.update()
+        return windll.user32.GetParent(window.winfo_id())
+    elif window_name.startswith("<wx"): # wxpython
+        return window.GetHandle()
+    elif window_name.startswith("<py"): # pyqt/pyside
+        return window.winId().__int__()
+    else:
+        return window # other ui windows
+    
+def paint(window):
+    """ paint black color in background """
+    window_name = str(window).lower()
+    if window_name.startswith("."): # tkinter
+        window.config(bg="black")
+    elif window_name.startswith("<wx"): # wxpython
+        window.SetBackgroundColour("black")
+    elif window_name.startswith("<py"): # pyqt/pyside
+        window.setStyleSheet("background-color: transparent;")
+    
 def convert_color(color_name: str):
     """ convert colors to the required API """
     NAMES_TO_HEX = {
@@ -288,6 +309,8 @@ def convert_color(color_name: str):
     if not color_name.startswith("#"):
         if color_name in NAMES_TO_HEX:
             color =  NAMES_TO_HEX[color_name]
+        elif color_name.startswith("grey") or color_name.startswith("gray"):
+            color = f"#{color_name[-2:]}{color_name[-2:]}{color_name[-2:]}"
         else:
             raise ValueError(f"Invalid color passed: {color_name}")
     else:
