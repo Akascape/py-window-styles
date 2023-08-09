@@ -1,7 +1,7 @@
 # py-window-styles
 
-Customize your UI window with awesome built-in windows 11 header styles and themes.
-**This is only for windows 11 (some themes may not work with windows 10).**
+Customize your UI window with awesome built-in Windows 11 header styles and themes.
+**Windows 10 is also supported (only themes).**
 
 ![Screenshot](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
 
@@ -39,7 +39,7 @@ pywinstyles.apply_style(window, style)
 | popup | ![](https://github.com/Akascape/py-window-styles/assets/89206401/dac6672e-99e8-4abc-b779-aed25c32ed09) |
 | dark | ![](https://github.com/Akascape/py-window-styles/assets/89206401/ca41fa22-ed9d-437f-8574-bf0a13218747) |
 
-## Custom Window Colors (Only available for windows 11)
+## Custom Window Colors (Only works in windows 11)
 ![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
 ### Changing Title Bar Color
 ```python
@@ -58,7 +58,8 @@ pywinstyles.change_border_color(window, color="#00ffff")
 ```python
 default_color = pywinstyles.get_accent_color()
 ```
-**Hope this project will help in UI development with python**
+
+**Hope this package can help in UI development with python**
 
 **Author: Akash Bora**
 
