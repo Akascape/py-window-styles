@@ -132,7 +132,9 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
 
 def get_accent_color():
-    """ returns windows current accent color """
+    """ returns windows current accent color 
+    code provided by Zane (Zingzy) https://github.com/Zingzy
+    """
     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\DWM')
     value, type = winreg.QueryValueEx(key, 'ColorizationAfterglow')
     winreg.CloseKey(key)
