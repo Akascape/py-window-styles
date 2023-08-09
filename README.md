@@ -3,8 +3,15 @@
 Customize your UI window with awesome built-in windows 11 header styles and themes.
 **This is only for windows 11 (some themes may not work with windows 10).**
 
-![Screenshot 2023-06-19 205353](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
+![Screenshot](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
 
+## Supported UI Libraries
+- Tkinter
+- Customtkinter
+- PyQt
+- PySide
+- WxPython
+  
 ## Installation
 ```
 pip install pywinstyles
@@ -47,6 +54,10 @@ pywinstyles.change_title_color(window, color="white")
 pywinstyles.change_border_color(window, color="#00ffff")
 ```
 
+### Getting Windows Accent Color
+```python
+default_color = pywinstyles.get_accent_color()
+```
 **Hope this project will help in UI development with python**
 
 **Author: Akash Bora**
