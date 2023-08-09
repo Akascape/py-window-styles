@@ -1,12 +1,13 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.3
+Version: 1.4
 """
 
 try:
     from ctypes import POINTER, pointer, sizeof, windll, Structure, byref, c_int
     from ctypes.wintypes import DWORD, ULONG
+    import winreg
 except ImportError:
     raise ImportError("pywinstyles import errror: No windows environment detected!")
 
@@ -72,7 +73,7 @@ class apply_style():
             paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 4, color=0)
-     
+
 class change_header_color():
     """ change the titlebar background color """
     def __init__(self,
@@ -90,8 +91,7 @@ class change_header_color():
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 35
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
-        
-            
+               
 class change_border_color():
     """ change the window border color """
     def __init__(self,
@@ -130,7 +130,15 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
         accentPolicy.GradientColor = color
                                     
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
-    
+
+def get_accent_color():
+    """ returns windows current accent color """
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\DWM')
+    value, type = winreg.QueryValueEx(key, 'ColorizationAfterglow')
+    winreg.CloseKey(key)
+    color = f"#{str(hex(value))[4:]}"
+    return color
+ 
 def detect(window):
     """ detect the type of UI library """
     try: # tkinter
