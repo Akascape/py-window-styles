@@ -16,7 +16,7 @@ Customize your UI window with awesome built-in Windows 11 header styles and them
 - PySimpleGUI
 - more...
 
-[<img src="https://img.shields.io/badge/View-Examples-informational?&color=darkblue&style=for-the-badge" width="150">](https://github.com/Akascape/py-window-styles/discussions/7)
+[<img src="https://img.shields.io/badge/View-Examples-informational?&color=darkblue&style=for-the-badge" width="150">](https://github.com/Akascape/py-window-styles/blob/main/Example_Documentation.md)
 
 ## Installation
 ```
