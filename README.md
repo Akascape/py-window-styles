@@ -12,6 +12,8 @@ Customize your UI window with awesome built-in Windows 11 header styles and them
 - PySide
 - Pygame
 - WxPython
+- Kivy
+- More...
   
 ## Installation
 ```
