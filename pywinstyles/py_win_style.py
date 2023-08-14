@@ -143,6 +143,8 @@ def get_accent_color():
  
 def detect(window):
     """ detect the type of UI library """
+    if type(window) in ("int", "str"): # hwnd
+        return window
     try: # tkinter
         window.update()
         return windll.user32.GetParent(window.winfo_id())
