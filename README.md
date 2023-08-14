@@ -10,11 +10,14 @@ Customize your UI window with awesome built-in Windows 11 header styles and them
 - Customtkinter
 - PyQt
 - PySide
-- Pygame
 - WxPython
+- Pygame
 - Kivy
-- More...
-  
+- PySimpleGUI
+- more...
+
+[<img src="https://img.shields.io/badge/View-Examples-informational?&color=darkblue&style=for-the-badge" width="150">](https://github.com/Akascape/py-window-styles/discussions/7)
+
 ## Installation
 ```
 pip install pywinstyles
