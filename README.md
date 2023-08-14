@@ -6,6 +6,7 @@ Customize your UI window with awesome built-in Windows 11 header styles and them
 ![Screenshot](https://github.com/Akascape/py-window-styles/assets/89206401/986062c0-30a0-4289-929a-e5e2440b8dd1)
 
 ## Supported UI Libraries
+- Win32
 - Tkinter
 - Customtkinter
 - PyQt
