@@ -25,7 +25,7 @@ pip install pywinstyles
 <img src="https://img.shields.io/badge/Platform-Windows-informational?" width="150"> [<img src="https://img.shields.io/pypi/v/pywinstyles?style=flat" width="90">](https://pypi.org/project/pywinstyles)
 [<img src="https://static.pepy.tech/badge/pywinstyles" width="130">](https://pepy.tech/project/pywinstyles)
 
-## Window Styles
+## Window Styles/Themes
 ```python
 import pywinstyles
 ...
