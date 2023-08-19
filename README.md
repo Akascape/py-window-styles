@@ -47,11 +47,11 @@ pywinstyles.apply_style(window, style)
 
 ## Custom Window Colors (Only works in windows 11)
 ![](https://user-images.githubusercontent.com/89206401/222352861-8af5703c-a64c-4c67-9192-29ffa0e3b4b5.jpg)
-### Changing Title Bar Color
+### Change Title Bar Color
 ```python
 pywinstyles.change_header_color(window, color="#00524d")  
 ```
-### Changing Title Text Color
+### Change Title Text Color
 ```python
 pywinstyles.change_title_color(window, color="white") 
 ```
@@ -59,10 +59,9 @@ pywinstyles.change_title_color(window, color="white")
 ```python
 pywinstyles.change_border_color(window, color="#00ffff")
 ```
-
-### Getting Windows Accent Color
+### Get Windows Accent Color
 ```python
-default_color = pywinstyles.get_accent_color()
+default_color = pywinstyles.get_accent_color() # returns hex color
 ```
 
 **Hope this package can help in UI development with python**
