@@ -61,7 +61,7 @@ pywinstyles.change_border_color(window, color="#00ffff")
 ```
 ### Get Windows Accent Color
 ```python
-default_color = pywinstyles.get_accent_color() # returns hex color
+default_color = pywinstyles.get_accent_color() # returns hex color string
 ```
 
 **Hope this package can help in UI development with python**
