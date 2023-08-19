@@ -98,4 +98,4 @@ import pywinstyles
 hwnd = windll.user32.GetActiveWindow() 
 pywinstyles.change_header_color(hwnd, color="blue")
 ```
-Note: If you are applying themes like *acrylic*, then paint your UI window with black color using the suitable methods.
+Note: If you are applying themes like *acrylic*, then paint your UI window with black color using suitable methods.
