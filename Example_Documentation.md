@@ -1,4 +1,4 @@
-Examples for all the supported libraries:
+Examples for all the supported libraries are given here, just adding one line of code can take your application to the next level! 🔥
 
 # Tkinter
 ```python
