@@ -94,6 +94,7 @@ Any other python UI libraries are also supported if you can retrieve the **HWND 
 from ctypes import windll
 import pywinstyles
 ...
+# use this method for any other libraries
 hwnd = windll.user32.GetActiveWindow() 
 pywinstyles.change_header_color(hwnd, color="blue")
 ```
