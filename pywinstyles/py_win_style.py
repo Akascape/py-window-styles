@@ -1,7 +1,7 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.4
+Version: 1.6
 """
 
 try:
@@ -33,7 +33,7 @@ class apply_style():
                  style: str):
         
         styles = ["dark", "mica", "aero", "transparent", "acrylic", "win7",
-                  "inverse", "popup", "native", "optimised", "light"]
+                  "inverse", "popup", "native", "optimised", "light", "normal"]
         
         if style not in styles:
             raise ValueError(f"Invalid style name! No such window style exists: {style} \nAvailable styles: {styles}")
@@ -73,7 +73,15 @@ class apply_style():
             paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 4, color=0)
-
+        elif style=="normal":
+            ChangeDWMAccent(self.HWND, 6, 0)
+            ChangeDWMAccent(self.HWND, 4, 0)
+            ChangeDWMAccent(self.HWND, 11, 0)
+            ChangeDWMAttrib(self.HWND, 19, c_int(0))
+            ChangeDWMAttrib(self.HWND, 20, c_int(0))
+            ChangeDWMAccent(self.HWND, 30, 0)
+            ChangeDWMAccent(self.HWND, 19, 0)
+            
 class change_header_color():
     """ change the titlebar background color """
     def __init__(self,
@@ -114,6 +122,29 @@ class change_title_color():
         self.attrib = 36
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
         
+class set_opacity():
+    """ change opacity of individual widgets """
+    def __init__(self,
+                 widget: int,
+                 value: float = 1.0,
+                 color: str = None):
+        
+        try:
+            # check for tkinter widgets exclusively
+            widget = widget.winfo_id()
+        except:
+            pass
+        if not isinstance(widget, int):
+            raise ValueError("widget ID should be passed, not the widget name.")
+        
+        self.widget_id = widget
+        self.opacity = int(255*value)
+        self.color = 1 if color is None else DWORD(int(convert_color(color), base=16))
+        wnd_exstyle = windll.user32.GetWindowLongA(self.widget_id, -20)
+        new_exstyle = wnd_exstyle | 0x00080000  
+        windll.user32.SetWindowLongA(self.widget_id, -20, new_exstyle)  
+        windll.user32.SetLayeredWindowAttributes(self.widget_id, self.color, self.opacity, 3)
+
 def ChangeDWMAttrib(hWnd: int, attrib: int, color):
     windll.dwmapi.DwmSetWindowAttribute(hWnd, attrib, byref(color), sizeof(c_int))
         
@@ -132,7 +163,7 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
 
 def get_accent_color():
-    """ returns windows current accent color 
+    """ returns current accent color of windows
     code provided by Zane (Zingzy) https://github.com/Zingzy
     """
     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\DWM')
@@ -142,7 +173,7 @@ def get_accent_color():
     return color
  
 def detect(window):
-    """ detect the type of UI library """
+    """ detect the type of UI library and return HWND """
     try: # tkinter
         window.update()
         return windll.user32.GetParent(window.winfo_id())
@@ -153,10 +184,13 @@ def detect(window):
     try: # wxpython
         return window.GetHandle()
     except: pass
-    return window # other ui windows
+    if isinstance(window, int): 
+        return window # other ui windows hwnd
+    else:
+        return windll.user32.GetActiveWindow() # get active hwnd
     
 def paint(window):
-    """ paint black color in background """
+    """ paint black color in background for acrylic/aero to work"""
     try: # tkinter
         window.config(bg="black")
         return
@@ -172,6 +206,7 @@ def paint(window):
     
 def convert_color(color_name: str):
     """ convert colors to the required API """
+    
     NAMES_TO_HEX = {
         "aliceblue": "#f0f8ff",
         "antiquewhite": "#faebd7",
