@@ -87,6 +87,25 @@ frame.Show()
 app.MainLoop()
 ```
 
+# PySimpleGUI
+```python
+import PySimpleGUI as sg
+import pywinstyles
+
+layout = [[sg.Text("pywinstyles example")], [sg.Button("OK")]]
+
+window = sg.Window("Demo", layout, finalize=True) # finalize the window
+
+pywinstyles.change_header_color(window.TKroot, color="blue")
+    
+while True:    
+    event, values = window.read()
+    if event == "OK" or event == sg.WIN_CLOSED:
+        break
+
+window.close()
+```
+
 # Other UI Libraries
 Any other python UI libraries are also supported if you can retrieve the **HWND (window handle)** of the required window and pass it in pywinstyles. Commonly used libraries are supported by default as shown above, so you don't have to do this extra work for them.
 
@@ -98,4 +117,5 @@ import pywinstyles
 hwnd = windll.user32.GetActiveWindow() 
 pywinstyles.change_header_color(hwnd, color="blue")
 ```
+
 Note: If you are applying themes like *acrylic*, then paint your UI window with black color using suitable methods.
