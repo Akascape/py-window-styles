@@ -107,7 +107,7 @@ window.close()
 ```
 
 # Other UI Libraries
-Any other python UI libraries are also supported if you can retrieve the **HWND (window handle)** of the required window and pass it in pywinstyles. Commonly used libraries are supported by default as shown above, so you don't have to do this extra work for them.
+Any other python UI libraries, like kivy, are also supported. You just have to retrieve the **HWND (window handle)** of the window and pass it in pywinstyles. Commonly used libraries are supported by default as shown above, so you don't have to do this extra work for them.
 
 ```python
 from ctypes import windll
