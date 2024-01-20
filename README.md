@@ -67,7 +67,7 @@ default_color = pywinstyles.get_accent_color() # returns hex color string
 
 ### Set opacity of individual widgets
 ```python
-pywinstyes.change_opacity(widget_id, value=0.5)
+pywinstyes.set_opacity(widget_id, value=0.5)
 ```
 
 **Hope this package can help in UI development with python**
