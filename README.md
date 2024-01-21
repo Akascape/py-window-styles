@@ -70,6 +70,11 @@ default_color = pywinstyles.get_accent_color() # returns hex color string
 pywinstyes.set_opacity(widget_id, value=0.5)
 ```
 
+### Make a color transparent inside widget
+```python
+pywinstyes.set_opacity(widget_id, color="white")
+```
+
 **Hope this package can help in UI development with python**
 
 **Author: Akash Bora**
