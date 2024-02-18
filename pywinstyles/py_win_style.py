@@ -26,6 +26,14 @@ class WINDOW_COMPOSITION_ATTRIBUTES(Structure):
         ('SizeOfData', ULONG),
         ]
 
+class MARGINS(Structure):
+    _fields_ = [("cxLeftWidth", c_int),
+                ("cxRightWidth", c_int),
+                ("cyTopHeight", c_int),
+                ("cyBottomHeight", c_int)
+                ]
+
+
 class apply_style():
     """ different styles for windows """
     def __init__(self,
@@ -62,8 +70,9 @@ class apply_style():
             ChangeDWMAccent(self.HWND, 19, 3, color=0x000000)
         elif style=="acrylic":
             paint(window)
-            ChangeDWMAccent(self.HWND, 30, 2)
-            ChangeDWMAccent(self.HWND, 19, 4, color=0x292929)
+            ChangeDWMAttrib(self.HWND, 20, c_int(1))
+            ChangeDWMAccent(self.HWND, 30, 3, color=0x292929)
+            ExtendFrameIntoClientArea(self.HWND)
         elif style=="popup":
             ChangeDWMAccent(self.HWND, 4, 1)
         elif style=="native":
@@ -141,8 +150,8 @@ class set_opacity():
         self.opacity = int(255*value)
         self.color = 1 if color is None else DWORD(int(convert_color(color), base=16))
         wnd_exstyle = windll.user32.GetWindowLongA(self.widget_id, -20)
-        new_exstyle = wnd_exstyle | 0x00080000  
-        windll.user32.SetWindowLongA(self.widget_id, -20, new_exstyle)  
+        new_exstyle = wnd_exstyle | 0x00080000
+        windll.user32.SetWindowLongA(self.widget_id, -20, new_exstyle)
         windll.user32.SetLayeredWindowAttributes(self.widget_id, self.color, self.opacity, 3)
 
 def ChangeDWMAttrib(hWnd: int, attrib: int, color):
@@ -161,6 +170,10 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
         accentPolicy.GradientColor = color
                                     
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
+
+def ExtendFrameIntoClientArea(HWND):
+    margins = MARGINS(-1, -1, -1, -1)
+    windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, byref(margins))
 
 def get_accent_color():
     """ returns current accent color of windows
