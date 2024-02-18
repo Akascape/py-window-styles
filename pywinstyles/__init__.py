@@ -5,7 +5,7 @@ License: MIT
 Homepage: https://github.com/Akascape/py-window-styles
 """
 
-__version__ = '1.6'
+__version__ = '1.7'
 
 from .py_win_style import apply_style
 from .py_win_style import change_header_color
