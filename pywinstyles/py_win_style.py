@@ -1,7 +1,7 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.6
+Version: 1.7
 """
 
 from typing import Any
