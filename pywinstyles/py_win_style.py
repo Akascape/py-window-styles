@@ -4,85 +4,92 @@ Author: Akash Bora
 Version: 1.6
 """
 
+from typing import Any
+
 try:
-    from ctypes import POINTER, pointer, sizeof, windll, Structure, byref, c_int
-    from ctypes.wintypes import DWORD, ULONG
     import winreg
+    from ctypes import (POINTER, Structure, byref, c_int, pointer, sizeof,
+                        windll)
+    from ctypes.wintypes import DWORD, ULONG
 except ImportError:
     raise ImportError("pywinstyles import errror: No windows environment detected!")
 
+
 class ACCENT_POLICY(Structure):
     _fields_ = [
-        ('AccentState',   DWORD),
-        ('AccentFlags',   DWORD),
-        ('GradientColor', DWORD),
-        ('AnimationId',   DWORD),
-        ]
+        ("AccentState", DWORD),
+        ("AccentFlags", DWORD),
+        ("GradientColor", DWORD),
+        ("AnimationId", DWORD),
+    ]
+
 
 class WINDOW_COMPOSITION_ATTRIBUTES(Structure):
     _fields_ = [
-        ('Attribute',  DWORD),
-        ('Data',       POINTER(ACCENT_POLICY)),
-        ('SizeOfData', ULONG),
-        ]
+        ("Attribute", DWORD),
+        ("Data", POINTER(ACCENT_POLICY)),
+        ("SizeOfData", ULONG),
+    ]
+
 
 class MARGINS(Structure):
-    _fields_ = [("cxLeftWidth", c_int),
-                ("cxRightWidth", c_int),
-                ("cyTopHeight", c_int),
-                ("cyBottomHeight", c_int)
-                ]
+    _fields_ = [
+        ("cxLeftWidth", c_int),
+        ("cxRightWidth", c_int),
+        ("cyTopHeight", c_int),
+        ("cyBottomHeight", c_int),
+    ]
 
 
 class apply_style():
-    """ different styles for windows """
-    def __init__(self,
-                 window,
-                 style: str):
-        
+    """different styles for windows"""
+
+    def __init__(self, window, style: str) -> None:
+
         styles = ["dark", "mica", "aero", "transparent", "acrylic", "win7",
-                  "inverse", "popup", "native", "optimised", "light", "normal"]
-        
+                "inverse", "popup", "native", "optimised", "light", "normal"]
+
         if style not in styles:
-            raise ValueError(f"Invalid style name! No such window style exists: {style} \nAvailable styles: {styles}")
-            return
-        
+            raise ValueError(
+                f"Invalid style name! No such window style exists: {style} \nAvailable styles: {styles}"
+            )
+
         self.HWND = detect(window)
 
-        if style=="mica":
+        if style == "mica":
             ChangeDWMAttrib(self.HWND, 19, c_int(1))
             ChangeDWMAttrib(self.HWND, 1029, c_int(0x01))
-        elif style=="optimised":
+        elif style == "optimised":
             ChangeDWMAccent(self.HWND, 30, 1)
-        elif style=="dark":
+        elif style == "dark":
             ChangeDWMAttrib(self.HWND, 19, c_int(1))
             ChangeDWMAttrib(self.HWND, 20, c_int(1))
-        elif style=="light":
+        elif style == "light":
             ChangeDWMAttrib(self.HWND, 19, c_int(0))
             ChangeDWMAttrib(self.HWND, 20, c_int(0))
-        elif style=="inverse":
+        elif style == "inverse":
             ChangeDWMAccent(self.HWND, 6, 1)
-        elif style=="win7":
+        elif style == "win7":
             ChangeDWMAccent(self.HWND, 11, 1)
-        elif style=="aero":
+        elif style == "aero":
             paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 3, color=0x000000)
-        elif style=="acrylic":
+        elif style == "acrylic":
             paint(window)
             ChangeDWMAttrib(self.HWND, 20, c_int(1))
             ChangeDWMAccent(self.HWND, 30, 3, color=0x292929)
             ExtendFrameIntoClientArea(self.HWND)
-        elif style=="popup":
+        elif style == "popup":
             ChangeDWMAccent(self.HWND, 4, 1)
-        elif style=="native":
+        elif style == "native":
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 2)
-        elif style=="transparent":
+        elif style == "transparent":
             paint(window)
             ChangeDWMAccent(self.HWND, 30, 2)
             ChangeDWMAccent(self.HWND, 19, 4, color=0)
-        elif style=="normal":
+        elif style == "normal":
             ChangeDWMAccent(self.HWND, 6, 0)
             ChangeDWMAccent(self.HWND, 4, 0)
             ChangeDWMAccent(self.HWND, 11, 0)
@@ -90,16 +97,16 @@ class apply_style():
             ChangeDWMAttrib(self.HWND, 20, c_int(0))
             ChangeDWMAccent(self.HWND, 30, 0)
             ChangeDWMAccent(self.HWND, 19, 0)
-            
+
+
 class change_header_color():
-    """ change the titlebar background color """
-    def __init__(self,
-                 window,
-                 color):
-        
+    """change the titlebar background color"""
+
+    def __init__(self, window: Any, color: str) -> None:
+
         self.HWND = detect(window)
-    
-        if color=="transparent":
+
+        if color == "transparent":
             ChangeDWMAccent(self.HWND, 30, 2)
             return
         else:
@@ -108,36 +115,35 @@ class change_header_color():
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 35
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
-               
+
+
 class change_border_color():
-    """ change the window border color """
-    def __init__(self,
-                 window,
-                 color):
-                   
+    """change the window border color"""
+
+    def __init__(self, window: Any, color: str) -> None:
+
         self.HWND = detect(window)
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 34
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
-        
+
+
 class change_title_color():
-    """ change the title color """
-    def __init__(self,
-                 window,
-                 color):
-        
+    """change the title color"""
+
+    def __init__(self, window: Any, color: str) -> None:
+
         self.HWND = detect(window)
         self.color = DWORD(int(convert_color(color), base=16))
         self.attrib = 36
         ChangeDWMAttrib(self.HWND, self.attrib, self.color)
-        
+
+
 class set_opacity():
-    """ change opacity of individual widgets """
-    def __init__(self,
-                 widget: int,
-                 value: float = 1.0,
-                 color: str = None):
-        
+    """change opacity of individual widgets"""
+
+    def __init__(self, widget: int, value: float = 1.0, color: str = None) -> None:
+
         try:
             # check for tkinter widgets exclusively
             widget = widget.winfo_id()
@@ -145,81 +151,97 @@ class set_opacity():
             pass
         if not isinstance(widget, int):
             raise ValueError("widget ID should be passed, not the widget name.")
-        
+
         self.widget_id = widget
-        self.opacity = int(255*value)
+        self.opacity = int(255 * value)
         self.color = 1 if color is None else DWORD(int(convert_color(color), base=16))
         wnd_exstyle = windll.user32.GetWindowLongA(self.widget_id, -20)
         new_exstyle = wnd_exstyle | 0x00080000
         windll.user32.SetWindowLongA(self.widget_id, -20, new_exstyle)
-        windll.user32.SetLayeredWindowAttributes(self.widget_id, self.color, self.opacity, 3)
+        windll.user32.SetLayeredWindowAttributes(
+            self.widget_id, self.color, self.opacity, 3
+        )
 
-def ChangeDWMAttrib(hWnd: int, attrib: int, color):
+
+def ChangeDWMAttrib(hWnd: int, attrib: int, color) -> None:
     windll.dwmapi.DwmSetWindowAttribute(hWnd, attrib, byref(color), sizeof(c_int))
-        
-def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color=None):
-    accentPolicy = ACCENT_POLICY()  
-                                                
+
+
+def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color: str | None = None) -> None:
+    accentPolicy = ACCENT_POLICY()
+
     winCompAttrData = WINDOW_COMPOSITION_ATTRIBUTES()
     winCompAttrData.Attribute = attrib
     winCompAttrData.SizeOfData = sizeof(accentPolicy)
     winCompAttrData.Data = pointer(accentPolicy)
 
-    accentPolicy.AccentState =  state
+    accentPolicy.AccentState = state
     if color:
         accentPolicy.GradientColor = color
-                                    
+
     windll.user32.SetWindowCompositionAttribute(hWnd, pointer(winCompAttrData))
 
-def ExtendFrameIntoClientArea(HWND):
+
+def ExtendFrameIntoClientArea(HWND: int) -> None:
     margins = MARGINS(-1, -1, -1, -1)
     windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, byref(margins))
 
-def get_accent_color():
-    """ returns current accent color of windows
+
+def get_accent_color() -> str:
+    """returns current accent color of windows
     code provided by Zane (Zingzy) https://github.com/Zingzy
     """
-    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\DWM')
-    value, type = winreg.QueryValueEx(key, 'ColorizationAfterglow')
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\DWM")
+    value, type = winreg.QueryValueEx(key, "ColorizationAfterglow")
     winreg.CloseKey(key)
     color = f"#{str(hex(value))[4:]}"
     return color
- 
-def detect(window):
-    """ detect the type of UI library and return HWND """
-    try: # tkinter
+
+
+def detect(window: Any):
+    """detect the type of UI library and return HWND"""
+    try:  # tkinter
         window.update()
         return windll.user32.GetParent(window.winfo_id())
-    except: pass
-    try: # pyqt/pyside
+    except:
+        pass
+    try:  # pyqt/pyside
         return window.winId().__int__()
-    except: pass
-    try: # wxpython
+    except:
+        pass
+    try:  # wxpython
         return window.GetHandle()
-    except: pass
-    if isinstance(window, int): 
-        return window # other ui windows hwnd
+    except:
+        pass
+    if isinstance(window, int):
+        return window  # other ui windows hwnd
     else:
-        return windll.user32.GetActiveWindow() # get active hwnd
-    
-def paint(window):
-    """ paint black color in background for acrylic/aero to work"""
-    try: # tkinter
+        return windll.user32.GetActiveWindow()  # get active hwnd
+
+
+def paint(window: Any) -> None:
+    """paint black color in background for acrylic/aero to work"""
+    try:  # tkinter
         window.config(bg="black")
         return
-    except: pass
-    try: # pyqt/pyside
+    except:
+        pass
+    try:  # pyqt/pyside
         window.setStyleSheet("background-color: transparent;")
         return
-    except: pass
-    try: # wxpython
+    except:
+        pass
+    try:  # wxpython
         window.SetBackgroundColour("black")
         return
-    except: pass
-    
-def convert_color(color_name: str):
-    """ convert colors to the required API """
-    
+    except:
+        pass
+    print("Don't know what the window type is, please paint it black")
+
+
+def convert_color(color_name: str) -> str:
+    """convert colors to the required API"""
+
     NAMES_TO_HEX = {
         "aliceblue": "#f0f8ff",
         "antiquewhite": "#faebd7",
@@ -369,16 +391,16 @@ def convert_color(color_name: str):
         "yellow": "#ffff00",
         "yellowgreen": "#9acd32",
     }
-    
+
     if not color_name.startswith("#"):
         if color_name in NAMES_TO_HEX:
-            color =  NAMES_TO_HEX[color_name]
+            color = NAMES_TO_HEX[color_name]
         elif color_name.startswith("grey") or color_name.startswith("gray"):
             color = f"#{color_name[-2:]}{color_name[-2:]}{color_name[-2:]}"
         else:
             raise ValueError(f"Invalid color passed: {color_name}")
     else:
         color = color_name
-        
+
     color = f"{color[5:7]}{color[3:5]}{color[1:3]}"
     return color
