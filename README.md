@@ -79,3 +79,5 @@ pywinstyes.set_opacity(widget_id, color="white")
 
 **Author: Akash Bora**
 
+Also check [hPyT](https://github.com/Zingzy/hPyT) package if you want to play with the title bar buttons.
+
