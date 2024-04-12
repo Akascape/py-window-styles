@@ -3,7 +3,7 @@ Py-Win-Styles
 Author: Akash Bora
 Version: 1.7
 """
-
+from typing import Literal
 from typing import Any
 
 try:
@@ -44,7 +44,9 @@ class MARGINS(Structure):
 class apply_style():
     """different styles for windows"""
 
-    def __init__(self, window, style: str) -> None:
+    def __init__(self, window,
+                 style: Literal["dark", "mica", "aero", "transparent", "acrylic", "win7",
+                                "inverse", "popup", "native", "optimised", "light", "normal"]) -> None:
 
         styles = ["dark", "mica", "aero", "transparent", "acrylic", "win7",
                 "inverse", "popup", "native", "optimised", "light", "normal"]
