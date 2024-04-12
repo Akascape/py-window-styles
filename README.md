@@ -67,12 +67,12 @@ default_color = pywinstyles.get_accent_color() # returns hex color string
 
 ### Set opacity of individual widgets
 ```python
-pywinstyes.set_opacity(widget_id, value=0.5)
+pywinstyles.set_opacity(widget_id, value=0.5)
 ```
 
 ### Make a color transparent inside widget
 ```python
-pywinstyes.set_opacity(widget_id, color="white")
+pywinstyles.set_opacity(widget_id, color="white")
 ```
 
 **Hope this package can help in UI development with python**
@@ -80,4 +80,3 @@ pywinstyes.set_opacity(widget_id, color="white")
 **Author: Akash Bora**
 
 Also check [hPyT](https://github.com/Zingzy/hPyT) package if you want to play with the title bar buttons.
-
