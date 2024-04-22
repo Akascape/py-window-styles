@@ -74,7 +74,12 @@ pywinstyles.set_opacity(widget_id, value=0.5)
 ```python
 pywinstyles.set_opacity(widget_id, color="white")
 ```
-
+### Add file DND feature to widgets
+```python
+def drop_func(file):
+  print(file)
+pywinstyles.set_opacity(widget_id, frop_func)
+```
 **Hope this package can help in UI development with python**
 
 **Author: Akash Bora**
