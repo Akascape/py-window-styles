@@ -1,16 +1,19 @@
 """
 Py-Win-Styles
 Author: Akash Bora
-Version: 1.7
+Version: 1.8
 """
 
-from typing import Any
+from __future__ import annotations
+from typing import Any, Union, Callable
 
 try:
     import winreg
     from ctypes import (POINTER, Structure, byref, c_int, pointer, sizeof,
-                        windll)
+                        windll, c_buffer, WINFUNCTYPE, c_uint64)
     from ctypes.wintypes import DWORD, ULONG
+    import platform
+
 except ImportError:
     raise ImportError("pywinstyles import errror: No windows environment detected!")
 
@@ -97,7 +100,7 @@ class apply_style():
             ChangeDWMAttrib(self.HWND, 20, c_int(0))
             ChangeDWMAccent(self.HWND, 30, 0)
             ChangeDWMAccent(self.HWND, 19, 0)
-
+            DisableFrameIntoClientArea(self.HWND)
 
 class change_header_color():
     """change the titlebar background color"""
@@ -162,12 +165,73 @@ class set_opacity():
             self.widget_id, self.color, self.opacity, 3
         )
 
+class apply_dnd():
+    """apply file drag and drop in a widget"""
+    
+    def __init__(self, widget: int, func: Callable, char_limit: int=260) -> None:
 
+        try:
+            # check for tkinter widgets exclusively
+            hwnd = widget.winfo_id()
+        except:
+            hwnd = widget
+        if not isinstance(hwnd, int):
+            raise ValueError("widget ID should be passed, not the widget name.")
+        
+        if platform.architecture()[0] == "32bit":
+            GetWindowLong = windll.user32.GetWindowLongW
+            SetWindowLong = windll.user32.SetWindowLongW
+            typ = DWORD
+
+        if platform.architecture()[0] == "64bit":
+            GetWindowLong = windll.user32.GetWindowLongPtrA
+            SetWindowLong = windll.user32.SetWindowLongPtrA
+            typ = c_uint64
+
+        prototype = WINFUNCTYPE(typ, typ, typ, typ, typ)
+        WM_DROP_FILES = 0x233
+        GWL_WND_PROC = -4
+        create_buffer = c_buffer
+        func_DragQueryFile = (windll.shell32.DragQueryFile)
+
+        def py_drop_func(hwnd, msg, wp, lp):
+            global files
+            if msg == WM_DROP_FILES:
+                count = func_DragQueryFile(typ(wp), -1, None, None)
+                file_buffer = create_buffer(char_limit)
+                files = []
+                for i in range(count):
+                    func_DragQueryFile(typ(wp), i, file_buffer, sizeof(file_buffer))
+                    drop_name = file_buffer.value.decode("utf-8")
+                    files.append(drop_name)
+                func(files)
+                windll.shell32.DragFinish(typ(wp))
+
+            return windll.user32.CallWindowProcW(
+                *map(typ, (globals()[old], hwnd, msg, wp, lp))
+            )
+
+        """ Allow upto 10 widgets only to have dnd feature in one window, reduces system uses"""
+        limit_num = 10
+        for i in range(limit_num):
+            if i + 1 == limit_num:
+                raise OverflowError("DND limit reached for this session!")
+            owp = f"old_wnd_proc_{i}"
+            if owp not in globals():
+                old, new = owp, f"new_wnd_proc_{i}"
+                break
+
+        globals()[old] = None
+        globals()[new] = prototype(py_drop_func)
+
+        windll.shell32.DragAcceptFiles(hwnd, True)
+        globals()[old] = GetWindowLong(hwnd, GWL_WND_PROC)
+        SetWindowLong(hwnd, GWL_WND_PROC, globals()[new])
+        
 def ChangeDWMAttrib(hWnd: int, attrib: int, color) -> None:
     windll.dwmapi.DwmSetWindowAttribute(hWnd, attrib, byref(color), sizeof(c_int))
 
-
-def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color: str | None = None) -> None:
+def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color: Union[str, None] = None) -> None:
     accentPolicy = ACCENT_POLICY()
 
     winCompAttrData = WINDOW_COMPOSITION_ATTRIBUTES()
@@ -184,6 +248,10 @@ def ChangeDWMAccent(hWnd: int, attrib: int, state: int, color: str | None = None
 
 def ExtendFrameIntoClientArea(HWND: int) -> None:
     margins = MARGINS(-1, -1, -1, -1)
+    windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, byref(margins))
+    
+def DisableFrameIntoClientArea(HWND: int) -> None:
+    margins = MARGINS(0, 0, 0, 0)
     windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, byref(margins))
 
 
