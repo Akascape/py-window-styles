@@ -78,7 +78,7 @@ pywinstyles.set_opacity(widget_id, color="white")
 ```python
 def drop_func(file):
   print(file)
-pywinstyles.set_opacity(widget_id, frop_func)
+pywinstyles.apply_dnd(widget_id, frop_func)
 ```
 **Hope this package can help in UI development with python**
 
