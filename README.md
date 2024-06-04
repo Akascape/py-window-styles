@@ -32,7 +32,7 @@ import pywinstyles
 pywinstyles.apply_style(window, style)
 ...
 ```
-| Style Name | Preview |
+| Style Name | Preview (may vary with diffrent windows versions) |
 |-----------| ------------|
 | mica |  ![](https://user-images.githubusercontent.com/89206401/222347983-d840bee2-a100-40b4-a418-1a604bfc67d4.jpg) |
 | acrylic | ![](https://github.com/Akascape/py-window-styles/assets/89206401/cbd54b23-0626-44c7-a89a-6359517ed1a5) |
