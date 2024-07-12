@@ -114,7 +114,10 @@ from ctypes import windll
 import pywinstyles
 ...
 # use this method for any other libraries
-hwnd = windll.user32.GetActiveWindow() 
+hwnd = windll.user32.GetActiveWindow()
+# alternate method to find the window by name:
+# hwnd = ctypes.windll.user32.FindWindowW(None, window_name)
+
 pywinstyles.change_header_color(hwnd, color="blue")
 ```
 
