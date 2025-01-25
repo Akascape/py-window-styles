@@ -202,7 +202,12 @@ class apply_dnd():
                 files = []
                 for i in range(count):
                     func_DragQueryFile(typ(wp), i, file_buffer, sizeof(file_buffer))
-                    drop_name = file_buffer.value.decode("utf-8")
+                    try:
+                        drop_name = file_buffer.value.decode("utf-8")
+                    except UnicodeDecodeError:
+                        # If UTF-8 decoding fails, attempt to decode with a different encoding (e.g., Windows-1252)
+                        drop_name = file_buffer.value.decode("Windows-1252")
+                     
                     files.append(drop_name)
                 func(files)
                 windll.shell32.DragFinish(typ(wp))
