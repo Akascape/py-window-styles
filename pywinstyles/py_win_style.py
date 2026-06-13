@@ -6,6 +6,8 @@ Version: 1.8
 
 from __future__ import annotations
 from typing import Any, Union, Callable
+import sys
+
 
 try:
     import winreg
@@ -16,6 +18,10 @@ try:
 
 except ImportError:
     raise ImportError("pywinstyles import errror: No windows environment detected!")
+
+
+windows_version = sys.getwindowsversion()
+is_windows_10 = windows_version.major == 10 and windows_version.build < 22000
 
 
 class ACCENT_POLICY(Structure):
@@ -101,6 +107,17 @@ class apply_style():
             ChangeDWMAccent(self.HWND, 30, 0)
             ChangeDWMAccent(self.HWND, 19, 0)
             DisableFrameIntoClientArea(self.HWND)
+
+        # On Windows 10, changing the title bar's style to "light" or "dark" will not automatically make
+        # the title bar redraw (unlike on Windows 11), so we'll have to force this by toggling the window's
+        # nonclient area focus state
+        if style in ["light", "dark", "normal"] and is_windows_10:
+            is_window_focused = windll.user32.GetForegroundWindow() == self.HWND
+
+            # 0x0086 is WM_NCACTIVATE
+            windll.user32.SendMessageW(self.HWND, 0x0086, not is_window_focused, 0) 
+            windll.user32.SendMessageW(self.HWND, 0x0086, is_window_focused, 0)
+
 
 class change_header_color():
     """change the titlebar background color"""
@@ -269,8 +286,16 @@ def get_accent_color() -> str:
 def detect(window: Any):
     """detect the type of UI library and return HWND"""
     try:  # tkinter
-        window.update()
-        return windll.user32.GetParent(window.winfo_id())
+        hwnd = windll.user32.GetParent(window.winfo_id())
+
+        if hwnd == 0:
+            # The window was not realized yet
+            # We need to call `update` to make sure it gets realized before trying to get its hwnd
+
+            window.update()
+            hwnd = windll.user32.GetParent(window.winfo_id())
+
+        return hwnd
     except:
         pass
     try:  # pyqt/pyside
